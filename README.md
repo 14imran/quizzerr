@@ -1,4 +1,4 @@
-### Quizzerr
+# Quizzerr
 ## Description
 Quizzer is a game where the player has to read the question on the screen and shoot the right target. Player can move shooting object horizontally and shoot up bombs/targets that appear on top of the screen. The game ends when the player chooses the wrong option for the question.After that, a score is calculated based on correct target destroyed.
 
@@ -25,13 +25,13 @@ MVP definition, deliverables.
 
 ## Data structure
 Classes and methods definition.
-# main.js
+## main.js
 
 - buildSplashScreen () {}
 - buildGameScreen () {}
 - buildGameOverScreen () {}
 
-# game.js
+## game.js
 
 - Game () {}
 - starLoop () {}
@@ -41,7 +41,7 @@ Classes and methods definition.
 - drawCanvas () {}
 - GameOver () {}
 
-# cake.js 
+## cake.js 
 
 - Cake () {
     this.x;
@@ -54,7 +54,7 @@ Classes and methods definition.
 - shoot () {}
 - checkScreenCollision () {}
 
-# bomb.js 
+## bomb.js 
 
 - bomb () {
     this.x;
@@ -66,7 +66,7 @@ Classes and methods definition.
 - move () {}
 
 
-# cannonball.js 
+## cannonball.js 
 
 - Cannonball () {
     this.x;
@@ -130,5 +130,5 @@ URls for the project repo and deploy
 URls for the project presentation (slides)
 [Link Slides.com](http://slides.com)
 
-wireframes
+### wireframes
 https://balsamiq.cloud/sol1p9b/p6kgfri
