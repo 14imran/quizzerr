@@ -122,7 +122,7 @@ Task definition in order of priority
 
 ### Git
 URls for the project repo and deploy
-[Link Repo](http://github.com)
+[Link Repo]  https://github.com/14imran/quizzerr
 [Link Deploy](http://github.com)
 
 
