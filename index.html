@@ -4,48 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 <body> 
   
-    <div class='ripple-background'>
-      <div class='circle xxlarge shade1'></div>
-      <div class='circle xlarge shade2'></div>
-      <div class='circle large shade3'></div>
-      <div class='circle mediun shade4'></div>
-      <div class='circle small shade5'></div>
-    </div>
+  <nav class="navbar navbar-dark bg-dark">
+    <img class="timer" src="./images/waiting.png" style="height: 50px;width: 50px;">
+    <!-- <a class="navbar-brand">00:00</a> -->
+    <nav class="controls">
+			<!-- <a class="navbar-brand" href="#" class="button" onClick="stopwatch.start();">start</a> -->
+		</nav>
+    <div class="stopwatch" style="color: white;"></div>
+    <ul class="results"></ul>
     
-  
-    <div id="containersss">  
-  <div class="flex">
-    <div class="field">Question</div>
-    <div id="question" class="field"></div>
-  </div>
-  <div class="flex">
-    <div class="field">Answer A</div>
-    <button id="answerA" onclick="answerA_clicked()"></button>
-  </div>
-  <div class="flex">
-    <div class="field">Answer B</div>
-    <button id="answerB" onclick="answerB_clicked()"></button>
-  </div>
-  <div class="flex">
-    <div class="field">Answer C</div>
-    <button id="answerC" onclick="answerC_clicked()"></button>
-  </div>
-  <div class="flex">
-    <div class="field">Answer D</div>
-    <button id="answerD" onclick="answerD_clicked()"></button>
-  </div>
+    <form class="form-inline">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Another One</button>
 
+    </form>
+  </nav>
+
+
+   <div id="welcomeDiv"  style="display:none;" class="answer_list" >
+   <div id="containersss">  
+  <div class="flex">
+    <div  class="alert alert-primary" role="alert" class="field">Question</div>
+    <div  class="alert alert-primary" role="alert" id="question" class="field"></div>
+  </div>
+  <div class="flex">
+    <div class="alert alert-dark" role="alert" class="field">
+    <button type="button" class="btn btn-info" id="answerA" onclick="answerA_clicked()"></button>
+  </div>
+  </div>
+  <div class="flex">
+    <div class="alert alert-dark" role="alert" class="field">
+    <button type="button" class="btn btn-info" id="answerB" onclick="answerB_clicked()"></button>
+  </div>
+  </div>
+  <div class="flex">
+    <div class="alert alert-dark" role="alert" class="field">
+    <button type="button" class="btn btn-info" id="answerC" onclick="answerC_clicked()"></button>
+  </div>
+  </div>
+  <div class="flex">
+    <div class="alert alert-dark" role="alert" class="field">
+    <button type="button" class="btn btn-info" id="answerD" onclick="answerD_clicked()"></button>
+  </div>
+  </div>
+</div>
 </div>
 
-    <canvas id="myCanvas" width="600" height="400" tabindex="1"></canvas>
+<!-- <div  class ="alert alert-primary" role="alert" class="alert" style="height: 80px; width: 100px;">
+  Alert
+</div> -->
+
+
+    <canvas id="myCanvas" width="600" height="430" tabindex="1"></canvas>
  
 </body>
-
 <script src="script.js"></script>
-<!-- <script src="quiz.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
 </html>
