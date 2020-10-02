@@ -1,8 +1,5 @@
 let canvas = document.querySelector('canvas')
 let context = canvas.getContext('2d');
-// context.shadowBlur = 0;
-// context.shadowColor = "blue";
-// canvas.style.border = '1px solid black';
 
 
 
@@ -141,16 +138,17 @@ function matchingElements(){
    allTargets()
 }
 
-let targetObject = makeSquare(400,canvas.height / 2 - 150,20,6,0)
-let targetObject2 = makeSquare(400,canvas.height / 2 - 100,20,6,1)
-let targetObject3 = makeSquare(400,canvas.height / 2 - 50,20,6,2)
-let targetObject4 = makeSquare(400,canvas.height / 2 - 0,20,6,3)
+let targetObject = makeSquare(400,canvas.height  - 280,20,6,0)
+let targetObject2 = makeSquare(400,canvas.height   - 220,20,6,1)
+let targetObject3 = makeSquare(400,canvas.height   - 150,20,6,2)
+let targetObject4 = makeSquare(400,canvas.height  - 80,20,6,3)
 
 function allTargets(){
  
 return  ar= [targetObject,targetObject2,targetObject3,targetObject4]
 
 }
+//images init
 
 let welcome = new Image();
 welcome.src = "images/welcome.png";
@@ -164,6 +162,14 @@ endImg.src = "images/gaameOver.png";
 let endImg2 = new Image();
 endImg2.src = "images/welcome2.png";
 
+let win = new Image();
+win.src = "images/win.png";
+
+let win3 = new Image();
+win3.src = "images/win3.png";
+
+let win4 = new Image();
+win4.src = "images/win4.png";
 
 welcome.addEventListener('load',cb=>{
   context.drawImage(welcome, 0, 0,200,200 );
@@ -218,12 +224,12 @@ function menu() {
 // })
 
   context.fillStyle = '#000000';
-  context.font = '36px Roboto';
+  context.font = '36px Verdana';
   context.textAlign = 'center';
   context.fillText('QUIZZER!', canvas.width / 2, canvas.height / 4);
-  context.font = '24px Roboto';
+  context.font = '24px Verdana';
   context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
-  context.font = '18px Roboto';
+  context.font = '14px Verdana';
   context.fillText('Up/Down to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
   // Start the game on a click
   
@@ -259,9 +265,40 @@ function endGame() {
   context.drawImage(endImg2, 350, 200,200,250);
 
   context.fillStyle = '#000000';
-  context.font = '24px Roboto';
+  context.font = '24px Verdana';
   context.textAlign = 'center';
   context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
+  
+}
+//win game screen
+function winGame(){
+  if(score > 9){
+  	// Stop the spawn interval
+    clearInterval(timeoutId);
+    // Show the final score
+    erase();
+    hideDiv();
+    stopwatch.stop();
+   
+    
+    context.drawImage(win, 0, 10,100,100);
+    context.drawImage(win3, 100, 10,100,100);
+
+    context.drawImage(win3, 350, 10,100,100);
+
+    context.drawImage(win4, 450, 10,100,100);
+    context.drawImage(endImg2, 350, 200,200,250);
+  
+    context.fillStyle = '#000000';
+    context.font = '30px Verdana';
+    context.textAlign = 'center';
+    context.fillText('You win.Your Score: ' + score, canvas.width / 2, canvas.height / 2);
+
+}
+else{
+  endGame() ;
+}
+
   
 }
 
@@ -412,7 +449,8 @@ let targetObject4 = makeSquare(400,canvas.height / 2 - 0,20,6,3)
   context.fillText('Score: ' + score, 1, 25)
   // End or continue the game
   if (gameOver) {
-    endGame();
+    winGame()
+    // endGame();
   } else {
     window.requestAnimationFrame(draw);
   }
