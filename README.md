@@ -123,12 +123,12 @@ Task definition in order of priority
 ### Git
 URls for the project repo and deploy
 [Link Repo]  https://github.com/14imran/quizzerr
-[Link Deploy](https://14imran.github.io/quizzerr/?)
+[Link Deploy] https://14imran.github.io/quizzerr/?
 
 
 ### Slides
 URls for the project presentation (slides)
-[Link Slides.com](https://docs.google.com/presentation/d/1DGr6FQmXDpVRBahO52E055OejfWxAs3A8aNQVuJH-jM/edit?usp=sharing)
+[Link Slides.com] https://docs.google.com/presentation/d/1DGr6FQmXDpVRBahO52E055OejfWxAs3A8aNQVuJH-jM/edit?usp=sharing 
 
 ### wireframes
 https://balsamiq.cloud/sol1p9b/p6kgfri
