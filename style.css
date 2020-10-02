@@ -1,90 +1,30 @@
-body{
-    background: #3399ff;
-  }
+
+#containersss  {
+  height: 400px;
+  width: 100px;
+  position:absolute; 
+  right: 10px;
+  text-align: center;}
+
+  /* text-emphasis-color: white; */
+  #containersss{
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+  min-height: 200px;
+  width: 50vw;
+  margin: 50px auto;
   
-  
-  .circle{
-    position: absolute;
-    border-radius: 50%;
-    background: white;
-    animation: ripple 15s infinite;
-    box-shadow: 0px 0px 1px 0px #508fb9;
-  }
-  
-  .small{
-    width: 200px;
-    height: 200px;
-    left: -100px;
-    bottom: -100px;
-  }
-  
-  .medium{
-    width: 400px;
-    height: 400px;
-    left: -200px;
-    bottom: -200px;
-  }
-  
-  .large{
-    width: 600px;
-    height: 600px;
-    left: -300px;
-    bottom: -300px;
-  }
-  
-  .xlarge{
-    width: 800px;
-    height: 800px;
-    left: -400px;
-    bottom: -400px;
-  }
-  
-  .xxlarge{
-    width: 1000px;
-    height: 1000px;
-    left: -500px;
-    bottom: -500px;
-  }
-  
-  .shade1{
-    opacity: 0.2;
-  }
-  .shade2{
-    opacity: 0.5;
-  }
-  
-  .shade3{
-    opacity: 0.7;
-  }
-  
-  .shade4{
-    opacity: 0.8;
-  }
-  
-  .shade5{
-    opacity: 0.9;
-  }
-  
-  @keyframes ripple{
-    0%{
-      transform: scale(0.8);
-    }
-    
-    50%{
-      transform: scale(1.2);
-    }
-    
-    100%{
-      transform: scale(0.8);
-    }
-  }
-  
-  #containersss  {
-              border: 3px solid red;
-              height: 400px;
-              width: 400px;
-              position:absolute; 
-              right: 150px;
-            }
-  
-        
+  border-radius: 5px;
+          }
+
+    #myCanvas{
+      position: absolute;
+      left: 15px;
+      margin-top: 50px;
+
+          }
+      
+.homeIns{
+  height: 100px;
+  width: 100px;
+}
+
