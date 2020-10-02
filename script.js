@@ -1,14 +1,120 @@
 let canvas = document.querySelector('canvas')
-canvas.style.border = '1px solid black';
 let context = canvas.getContext('2d');
+// context.shadowBlur = 0;
+// context.shadowColor = "blue";
+// canvas.style.border = '1px solid black';
+
+
 
 window.addEventListener('DOMContentLoaded', (event) => {
   btnProvideQuestion()
   console.log('DOM fully loaded and parsed',);
   matchingElements();
+  
 
 });
-// Create an object representing a square on the canvas
+
+//timer
+class Stopwatch {
+  constructor(display, results) {
+      this.running = false;
+      this.display = display;
+      this.results = results;
+      this.laps = [];
+      this.reset();
+      this.print(this.times);
+  }
+  
+  reset() {
+      this.times = [ 0, 0, 0 ];
+  }
+  
+  start() {
+      if (!this.time) this.time = performance.now();
+      if (!this.running) {
+          this.running = true;
+          requestAnimationFrame(this.step.bind(this));
+      }
+  }
+  
+  lap() {
+      let times = this.times;
+      let li = document.createElement('li');
+      li.innerText = this.format(times);
+      this.results.appendChild(li);
+  }
+  
+  stop() {
+      this.running = false;
+      this.time = null;
+  }
+
+  restart() {
+      if (!this.time) this.time = performance.now();
+      if (!this.running) {
+          this.running = true;
+          requestAnimationFrame(this.step.bind(this));
+      }
+      this.reset();
+  }
+  
+  clear() {
+      clearChildren(this.results);
+  }
+  
+  step(timestamp) {
+      if (!this.running) return;
+      this.calculate(timestamp);
+      this.time = timestamp;
+      this.print();
+      requestAnimationFrame(this.step.bind(this));
+  }
+  
+  calculate(timestamp) {
+      var diff = timestamp - this.time;
+      // Hundredths of a second are 100 ms
+      this.times[2] += diff / 10;
+      // Seconds are 100 hundredths of a second
+      if (this.times[2] >= 100) {
+          this.times[1] += 1;
+          this.times[2] -= 100;
+      }
+      // Minutes are 60 seconds
+      if (this.times[1] >= 60) {
+          this.times[0] += 1;
+          this.times[1] -= 60;
+      }
+  }
+  
+  print() {
+      this.display.innerText = this.format(this.times);
+  }
+  
+  format(times) {
+      return `\
+${pad0(times[0], 2)}:\
+${pad0(times[1], 2)}:\
+${pad0(Math.floor(times[2]), 2)}`;
+  }
+}
+
+function pad0(value, count) {
+  var result = value.toString();
+  for (; result.length < count; --count)
+      result = '0' + result;
+  return result;
+}
+
+function clearChildren(node) {
+  while (node.lastChild)
+      node.removeChild(node.lastChild);
+}
+
+let stopwatch = new Stopwatch(
+  document.querySelector('.stopwatch'),
+  document.querySelector('.results'));
+  //timer end
+
 function makeSquare(x, y, length, speed ,id ,bool) {
   return {
     x: x,
@@ -22,18 +128,17 @@ function makeSquare(x, y, length, speed ,id ,bool) {
     }
   };
 }
+function showDiv() {
+  document.getElementById('welcomeDiv').style.display = "block";
+}
+function hideDiv(){
+  document.getElementById('welcomeDiv').style.display = "none";
 
+}
 
-// The ship the user controls
-// shooter
 function matchingElements(){
   btnProvideQuestion();
-  // answer = allTargets()
-allTargets()
-  console.log('im from match',ar)
-  
-  console.log('im from match',answers,randomQuestion)
-  
+   allTargets()
 }
 
 let targetObject = makeSquare(400,canvas.height / 2 - 150,20,6,0)
@@ -47,46 +152,39 @@ return  ar= [targetObject,targetObject2,targetObject3,targetObject4]
 
 }
 
-// function createTarget(){
-//   for(i=0;i<5;i++){
-//     makeSquare
-//   }
-// } 
+let welcome = new Image();
+welcome.src = "images/welcome.png";
+
+let keys = new Image();
+keys.src = "images/keys2.png";
+
+let endImg = new Image();
+endImg.src = "images/gaameOver.png";
+
+let endImg2 = new Image();
+endImg2.src = "images/welcome2.png";
+
+
+welcome.addEventListener('load',cb=>{
+  context.drawImage(welcome, 0, 0,200,200 );
+})
+
+keys.addEventListener('load',cb=>{
+  context.drawImage(keys, 110, 290 ,50,50 );
+
+})
+
 
 let ship = makeSquare(50, canvas.height / 2 - 25, 50, 5);
-
-// Flags to tracked which keys are pressed
 let up = false;
 let down = false;
 let space = false;
 
-// Is a bullet already on the canvas?
 let shooting = false;
-// The bulled shot from the ship
-// bullet
+
 let bullet = makeSquare(0, 0, 10, 10);
 
-// An array for enemies (in case there are more than one)
 let enemies = [];
-//my target objest here
-
-
-// Add an enemy object to the array
-// enemy here
-// start
-// let enemyBaseSpeed = 2;
-// function makeEnemy() {
-  
-//   let enemyX = canvas.width;
-//   let enemySize = Math.round((Math.random() * 15)) + 15;
-//   let enemyY = Math.round(Math.random() * (canvas.height - enemySize * 2)) + enemySize;
-//   let enemySpeed = Math.round(Math.random() * enemyBaseSpeed) + enemyBaseSpeed;
-//   enemies.push(makeSquare(enemyX, enemyY, enemySize, enemySpeed));
-// }
-// end
-
-
-// Check if number a is in the range b to c (exclusive)
 function isWithin(a, b, c) {
   return (a > b && a < c);
 }
@@ -104,37 +202,45 @@ function isColliding(a, b) {
 
 // Track the user's score
 let score = 0;
-// The delay between enemies (in milliseconds)
-// let timeBetweenEnemies = 5 * 1000;
-// ID to track the spawn timeout
 let timeoutId = null;
 
-// Show the game menu and instructions
+let bg = new Image();
+bg.src = "images/stars6.jpg";
+
+
+
 function menu() {
   erase();
+
+// bg.addEventListener('load',(cb)=>{
+//   context.drawImage(bg, 0, 0 );
+
+// })
+
   context.fillStyle = '#000000';
-  context.font = '36px Arial';
+  context.font = '36px Roboto';
   context.textAlign = 'center';
-  context.fillText('Shoot !', canvas.width / 2, canvas.height / 4);
-  context.font = '24px Arial';
+  context.fillText('QUIZZER!', canvas.width / 2, canvas.height / 4);
+  context.font = '24px Roboto';
   context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
-  context.font = '18px Arial';
+  context.font = '18px Roboto';
   context.fillText('Up/Down to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
   // Start the game on a click
+  
   canvas.addEventListener('click', startGame);
+ 
+
 }
+
 
 // Start the game
 function startGame() {
-	// Kick off the enemy spawn interval
-//just START timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-  // Make the first enemy
- //just START  setTimeout(makeEnemy, 1000);
-  // Kick off the draw loop
   
-//   greenTarget();
   draw();
+  showDiv();
+  stopwatch.start()
  
+
   // Stop listening for click events
   canvas.removeEventListener('click', startGame);
 }
@@ -145,16 +251,23 @@ function endGame() {
   clearInterval(timeoutId);
   // Show the final score
   erase();
+  hideDiv();
+  stopwatch.stop();
+ 
+  
+  context.drawImage(endImg, 0, 10,250,200);
+  context.drawImage(endImg2, 350, 200,200,250);
+
   context.fillStyle = '#000000';
-  context.font = '24px Arial';
+  context.font = '24px Roboto';
   context.textAlign = 'center';
   context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
+  
 }
 
-// Listen for keydown events
-console.log('hi')
+
+// Listen for keydown eents
 document.addEventListener('keydown',(event) => {
-    console.log(event)
     event.preventDefault();
   if (event.keyCode === 38 || event.key == 'ArrowUp' ) { // UP
     up = true;
@@ -198,27 +311,9 @@ function shoot() {
 // The main draw loop
 function draw() {
   erase();
+  context.drawImage(bg, 0, 0 );
   let gameOver = false;
-  // Move and draw the enemies
-  // start 
-  // enemies.forEach(function(enemy) {
-  //   enemy.x -= enemy.s;
-  //   if (enemy.x < 0) {
-  //     gameOver = true;
-  //   }
-  //   context.fillStyle = '#00FF00';
-  //   enemy.draw();
-  // });
-  // ennd
-  // Collide the ship with enemies
-//start
-  // ar.forEach(function(targetObject, i) {
-  //   if (isColliding(targetObject, bullet)) {
-  //     gameOver = true;
-  //   }
-  // });
-  //end
-  // Move the ship
+ 
   if (down) {
     ship.y += ship.s;
   }
@@ -232,6 +327,8 @@ function draw() {
   if (ship.y > canvas.height - ship.l) {
     ship.y = canvas.height - ship.l;
   }
+
+  
   // Draw the ship
   context.fillStyle = '#FF0000';
   ship.draw();
@@ -247,39 +344,26 @@ function draw() {
   targetObject4.draw();
   
 
+
+
+  
+
+
   // Move and draw the bullet
   if (shooting) {
     // Move the bullet
     bullet.x += bullet.s;
     // Collide the bullet with enemies
 allTargets()
-    // ar= [targetObject,targetObject2,targetObject3,targetObject4]
-//just START
-
-    // ar.forEach(function(targetObject, i) {
-    //   if (isColliding(bullet, targetObject)) {
-    //     ar.splice(i, 1);
-    //     score++;
-    //     console.log(targetObject)
-    //     targetObject.x = 0 
-    //     targetObject.y = 0 
-    //     targetObject.s = 0 
-    //     targetObject.l = 0 
-    //     shooting = false;
-    //   }
-    // });
     let rigthIndex = answers.indexOf(randomQuestion.rightAnswer)
-    // console.log("r", rigthIndex) 
     ar.forEach(function(targetObject, i) {
       if (isColliding(bullet , targetObject)) {
-        // if check that target object is answer{ return score ++}
-        // else gameOver
-        // targetObject.id = 'true'
+       
         if(targetObject.id == rigthIndex){
           score++;
          btnProvideQuestion();
          
-         let targetObject = makeSquare(400,canvas.height / 2 - 150,20,6,0)
+ let targetObject = makeSquare(400,canvas.height / 2 - 150,20,6,0)
 let targetObject2 = makeSquare(400,canvas.height / 2 - 100,20,6,1)
 let targetObject3 = makeSquare(400,canvas.height / 2 - 50,20,6,2)
 let targetObject4 = makeSquare(400,canvas.height / 2 - 0,20,6,3)
@@ -287,7 +371,6 @@ let targetObject4 = makeSquare(400,canvas.height / 2 - 0,20,6,3)
          
 
 
-          console.log('hi im at',targetObject)
           targetObject.x = 0 
           targetObject.y = 0 
           targetObject.s = 0 
@@ -302,26 +385,9 @@ let targetObject4 = makeSquare(400,canvas.height / 2 - 0,20,6,3)
        
           shooting = false;
         }
-        // if(targetObject.bool === true){
-        //   // ar.splice(i, 1);
-        //   score++;
-        //   console.log('hi im at',targetObject)
-        //   targetObject.x = 0 
-        //   targetObject.y = 0 
-        //   targetObject.s = 0 
-        //   targetObject.l = 0 
-
-        
-        //   targetObject.bool =false
-        //   targetObject2.bool=false;
-        //   targetObject4.bool = false
-        //   targetObject3.bool = false
-
-       
-        //   shooting = false;
-        // }
+      
         else{
-          console.log('hi im at',targetObject)
+     
           gameOver = true;
 
         }
@@ -329,24 +395,7 @@ let targetObject4 = makeSquare(400,canvas.height / 2 - 0,20,6,3)
         // ar.splice(i, 1);
       }
     });
-    //for loop 
-  
-
-    //     // Make the game harder
-    //     if (score % 10 === 0 && timeBetweenEnemies > 1000) {
-    //       clearInterval(timeoutId);
-    //       timeBetweenEnemies -= 1000;
-    //       timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-    //     } else if (score % 5 === 0) {
-    //       enemyBaseSpeed += 1;
-    //     }
      
-  // for(i=0;i<ar.length;i++){
-  //     if(ar[i]=== a[]) {
-
-  //     }
-  //   }
- //just end   
 
     // Collide with the wall
     if (bullet.x > canvas.width) {
@@ -357,8 +406,8 @@ let targetObject4 = makeSquare(400,canvas.height / 2 - 0,20,6,3)
     bullet.draw();
   }
   // Draw the score
-  context.fillStyle = '#000000';
-  context.font = '22px Sans';
+  context.fillStyle = '#FFFFFF';
+  context.font = '25px Sans';
   context.textAlign = 'left';
   context.fillText('Score: ' + score, 1, 25)
   // End or continue the game
@@ -377,13 +426,22 @@ canvas.focus();
 // quiz js
 //variables
 var quiz = [];
-quiz[0] = new Question("What is 1 + 4 ?", "5", "24", "23","3");
-quiz[1] = new Question("What color of tomato?", "Red", "White", "Green","Yellow");
-quiz[2] = new Question("how many months in a year?", "12", "10", "9" ,"2");
-quiz[3] = new Question("How many legs does a spider have?", "8", "6", "4","3");
-quiz[4] = new Question("Best footballe player?", "Messi", "Ronaldo", "Saurez","Neymar");
-quiz[5] = new Question("What is 2-2?", "0", "2", "4","1");
-quiz[6] = new Question("Who is the best author ?", "Dale", "Baker", "Peter","ran");
+quiz[0] = new Question("What does “ === “ operator do ?", "checks type & value", "checks type only", "checks value only","Out of bound");
+quiz[1] = new Question("Is javascript a statically or dynamically typed language?", "dynamically", "statically", "both","IDK");
+quiz[2] = new Question("What is NaN property in JavaScript?", "not a number", "not a nuisance", "not a narcotic","not a not");
+quiz[3] = new Question("What is a prototype ?", "Is a blueprint of an object", "Is not blueprint of an object", "Is blackprint of an object","none");
+quiz[4] = new Question("What is the use of CF?", "Used to create objects", "Used to shoot objects", "Used to increase difficulty","Idk");
+quiz[5] = new Question("DOM stands for?", "Document Object Model", "Document Original Moral", "Document Of Mortals","Dude of Maggie");
+quiz[6] = new Question("What are classes in javascript??", "Syntactic sugar for CF", "Sugar Yes pls", "Root cause for complication","none");
+quiz[7] = new Question("What is the use of Promises?", "To handle Async", "To handle Sync", "To handle Sink","To handle lie");
+quiz[8] = new Question("What is map used for ?", "To store key value pairs", "To store coordinates", "Used for navigation","Used for routes");
+quiz[9] = new Question("What is Object Destructuring?", "new way to extract elements from an object or an array", "i dont know", "1st option","no");
+quiz[10] = new Question("TDZ ?", "Temporal dead zone", "Temporal dead zombie", "To dead zone","Temporal diet zone");
+quiz[11] = new Question("console.log('1'+1);?", "11", "'11'", "2","undefined");
+quiz[12] = new Question("console.log('Hello'+'8')?", "Hello8", "'Hello8'", "NaN","undefined");
+quiz[13] = new Question("What is js ?", "programming language", "scripting language", "Elder bro of Java","Java sister");
+quiz[14] = new Question("Is JavaScript a case-sensitive language? ?", "Yes", "No", "Maybe","CamelCase");
+quiz[15] = new Question("One built in method ?", "indexOf()", "notAnumber()", "string()","case()");
 
 
 var randomQuestion;
@@ -425,10 +483,7 @@ function btnProvideQuestion() {
   document.getElementById("answerC").innerHTML= answers[2];
   document.getElementById("answerD").value= answers[3];
   document.getElementById("answerD").innerHTML= answers[3];
-// console.log('im ans',answers, randomQuestion.rightAnswer)
 return answers
-// console.log('im 2',answers)
-
 }
 
 
@@ -461,13 +516,10 @@ function adjustScore(isCorrect) {
       currentScore--;
   	}
   }
-  // document.getElementById("score").innerHTML = currentScore;
 }
 
 function checkAnswer(answer) {  
   if (answer == randomQuestion.rightAnswer) {
-    // console.log('im rit',randomQuestion.rightAnswer)
-
     adjustScore(true);
     btnProvideQuestion();
   } else { 
@@ -475,4 +527,3 @@ function checkAnswer(answer) {
     adjustScore(false);
   }	  
 }
-
