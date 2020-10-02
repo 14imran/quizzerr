@@ -230,6 +230,8 @@ function menu() {
   context.font = '24px Verdana';
   context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
   context.font = '14px Verdana';
+  context.fillText('To win shoot 10 targets', canvas.width /2  ,canvas.height/2 - 50 );	
+  context.font = '14px Verdana';
   context.fillText('Up/Down to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
   // Start the game on a click
   
